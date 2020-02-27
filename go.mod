@@ -8,6 +8,6 @@ require (
 	github.com/gorilla/mux v1.7.4 // indirect
 	github.com/gorilla/pat v1.0.1
 	github.com/nats-io/nats.go v1.9.1
-	github.com/victorolegovich/news-storage-service v0.0.0-20200225165734-4c75083f2098
+	github.com/victorolegovich/news-storage-service v0.0.0-20200227052440-eb9461426341
 	go.uber.org/zap v1.14.0
 )

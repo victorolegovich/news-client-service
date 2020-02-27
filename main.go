@@ -5,6 +5,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/pat"
 	"github.com/nats-io/nats.go"
+	config "github.com/victorolegovich/news-storage-service/config/nats_config"
 	pb "github.com/victorolegovich/news-storage-service/proto"
 	"go.uber.org/zap"
 	"net/http"
@@ -42,7 +43,9 @@ func getNewsItemH(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	broker, err := nats.Connect(nats.DefaultURL)
+	conf := config.New(logger)
+
+	broker, err := nats.Connect(conf.ServerURL)
 	if err != nil {
 		logger.Error("Nats server connection error", zap.Error(err))
 
@@ -56,7 +59,7 @@ func getNewsItemH(w http.ResponseWriter, r *http.Request) {
 
 	id := r.URL.Query().Get(":id")
 
-	msg, err := broker.Request("storage", []byte(id), time.Second)
+	msg, err := broker.Request(conf.Subject, []byte(id), time.Second)
 	if err != nil {
 		logger.Error("message sending error news storage service", zap.Error(err))
 
